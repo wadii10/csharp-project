@@ -1,0 +1,149 @@
+﻿@model WebApplication1.Models.Film
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<a asp-action="Index">Back to List</a>
+
+<div class="container">
+    <div class="card shadow-lg border-0 rounded-lg mt-5">
+
+    <div class="row justify-content-center">
+        <input type="hidden" id="FilmName" asp-for="FilmName" />
+        <div class="col-lg-4 mb-1">
+            <div class='productCard'>
+                    <div class="card" style="width: 18rem; height: 28rem;">
+                        <img src="~/uploads/@Html.DisplayFor(model => model.Image)" style="width: 100%; height: 18rem;" class="card-img-top" alt="loading">
+                    <div class="card-body">
+                        <h5 class="card-title"> @Html.DisplayFor(model => model.FilmName)</h5>
+                        <p class="card-text">@Html.DisplayFor(model => model.FilmDescription)</p>
+
+                         <a id="adEditFilm" asp-action="Edit" asp-route-id="@Model?.FilmId"><i class="fa-solid fa-pen-to-square fa-xl"></i></a> |
+                        <button style="opacity: 0.5; color: white;border: none;" onclick="addMovie()">
+                            <i color="red" class="fa-solid fa-heart-circle-plus fa-xl"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <iframe src="@Html.DisplayFor(model => model.Trailer)" height="300" width="100%" style="border:none;" ></iframe>
+        </div>
+
+
+    </div>
+
+    <div class="row justify-content-center">
+         
+
+        <div class="col-lg-4"> 
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Film Name
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="movieList">
+
+               
+                
+            </tbody>
+        </table>
+
+        </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function addMovie() {
+        var filmN = document.getElementById('FilmName').value;
+        var films = JSON.parse(localStorage.getItem('films')) || [];
+
+        // Check if the film is already in the array
+        if (!films.includes(filmN)) {
+            // Add the film to the array
+            films.push(filmN);
+
+            // Update local storage
+            localStorage.setItem('films', JSON.stringify(films));
+
+            // Refresh the movie list after adding a new movie
+            displayMovies();
+        } else {
+            alert('Film is already in the list');
+        }
+    }
+
+    function displayMovies() {
+        var movies = JSON.parse(localStorage.getItem('films')) || [];
+        var movieListElement = document.getElementById('movieList');
+
+        // Clear existing movie list
+        movieListElement.innerHTML = '';
+
+        // Display each movie in the list
+        movies.forEach(function (movie) {
+            var row = document.createElement('tr');
+            var cell = document.createElement('td');
+            cell.textContent = movie;
+            row.appendChild(cell);
+
+            // Add the delete button
+            var deleteButtonCell = document.createElement('td');
+            var deleteButton = document.createElement('button');
+            deleteButton.style = "opacity: 0.5; color: white; border: none;";
+            deleteButton.innerHTML = '<i class="fa-solid fa-x fa-xl" style="color: red;"></i>';
+            deleteButton.addEventListener('click', function () {
+                deleteMovie(movie);
+            });
+            deleteButtonCell.appendChild(deleteButton);
+            row.appendChild(deleteButtonCell);
+
+            movieListElement.appendChild(row);
+        });
+    }
+
+    function deleteMovie(movie) {
+        var movies = JSON.parse(localStorage.getItem('films')) || [];
+
+        // Remove the movie from the array
+        var index = movies.indexOf(movie);
+        if (index !== -1) {
+            movies.splice(index, 1);
+
+            // Update local storage
+            localStorage.setItem('films', JSON.stringify(movies));
+
+            // Refresh the movie list after deleting a movie
+            displayMovies();
+        }
+    }
+
+    // Initial display of movies on page load
+    window.onload = displayMovies;
+
+    
+    var users = JSON.parse(localStorage.getItem('users'));
+    var userRole = users[0];
+    console.log(userRole);
+    if (userRole === 'admin@gmail.com') {
+        document.getElementById('adEditFilm').style.display = 'block';
+    } else {
+        document.getElementById('adEditFilm').style.display = 'none';
+    }
+
+</script>
+
+
+
+

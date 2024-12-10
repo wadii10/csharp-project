@@ -1,0 +1,109 @@
+﻿@model WebApplication1.Models.Film
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Film</h3></div>
+                            <div class="card-body">
+                                <form asp-action="Create" enctype="multipart/form-data">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3 mb-md-0">
+                                                
+                                                <input class="form-control" id="inputFilmName" asp-for="FilmName" type="text" placeholder="Film Name" required />
+                                                <label for="inputFirstName" asp-for="FilmName">Film Name</label>
+                                                <span asp-validation-for="FilmName" class="text-danger"></span>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                               
+                                                <input class="form-control" id="FilmDescription" asp-for="FilmDescription" type="text" placeholder="Film Description" required />
+                                                <label for="FilmDescription" asp-for="FilmDescription">Film Description</label>
+                                                <span asp-validation-for="FilmDescription" class="text-danger"></span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="inputImage" asp-for="Image">Film Poster</label>
+                                        <input class="form-control" id="inputImage" asp-for="Image" type="file" required />
+                                        <span asp-validation-for="Image" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                    
+                                        <input class="form-control" id="inputImage" asp-for="Trailer" type="text" placeholder="Film Trailer" required />
+                                        <label for="inputImage" asp-for="Trailer">Film Trailer</label>
+                                        <span asp-validation-for="Image" class="text-danger"></span>
+
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-3 mb-md-0">
+
+                                                <label for="inputCat" asp-for="CatID" class="control-label">Category: </label>
+                                                <select id="inputCat" asp-for="CatID" asp-items="@(new SelectList(ViewBag.Categories, "CatID", "CatName"))" class="form-control"></select>
+                                                <span asp-validation-for="CatID" class="text-danger"></span>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            
+                                            <div class="form-group mb-3 mb-md-0">
+
+                                                <label for="inputProd" asp-for="ProdID" class="control-label">Producer: </label>
+                                                <select id="inputProd" asp-for="ProdID" asp-items="@(new SelectList(ViewBag.Producers, "ProdID", "ProdName"))" class="form-control"></select>
+                                                <span asp-validation-for="ProdID" class="text-danger"></span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 mb-0">
+                                        <div class="d-grid"><button class="btn btn-primary btn-block" type="submit">Add</button></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center py-3">
+                                <a asp-action="Index"><i class="fa-solid fa-arrow-left"></i> Back to Film List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div id="layoutAuthentication_footer">
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

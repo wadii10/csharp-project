@@ -1,0 +1,33 @@
+﻿@model IEnumerable<WebApplication1.Models.Producer>
+
+@{
+    ViewData["Title"] = "Producer List";
+}
+
+<h1>Index</h1>
+
+
+<a asp-action="Create" style="text-decoration:none" >Add Producer <i class="fa-solid fa-plus"></i></a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProdName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProdName)
+            </td>
+            <td>
+                    <a asp-action="Delete" asp-route-id="@item.ProdID"><i class="fa-solid fa-trash" color="red"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
